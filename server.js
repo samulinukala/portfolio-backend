@@ -8,7 +8,7 @@ const { mongoClient}=require('mongodb');
 const app=express();
 const PORT=process.env.PORT || 3000;
 async function readData() {
-const client=new mongoClient(uri);
+const client=new mongoClient(process.env.uri2);
 const database=client.Db('galleryData');
 const userCred=database.collection('userCred');
 query={username:"ericExample"};
@@ -161,7 +161,7 @@ testLogin();
 //testSend();
 
 app.use(bodyParser.json());
-mongoose.connect(uri2)
+mongoose.connect(process.env.uri2)
 .then(()=>console.log('mongodb connect'))
 .catch(err=>console.log(err));
 app.get('/',(req,res)=>
