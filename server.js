@@ -1,6 +1,7 @@
 const express=require('express');
 const cors=require('cors');
 require('dotenv').config();
+const pes=require("perfect-express-sanitizer");
 const mongoose=require('mongoose');
 const bodyParser=require('body-parser');
 const bcrypt=require('bcryptjs');
@@ -62,14 +63,17 @@ required:true
 
 const User=mongoose.model("User",userSchema);
 async function findUsersId(usernameToQry)
-{ 
-const user= await User.findOne({"username" : usernameToQry});
-
-const id=user._id.toString();
-console.log(user);
-return (id);
-
+{
+try{
+const u=await User.findOne({"username" : usernameToQry})
+if(!u){
+return null;
 }
+return u._id.toString();
+}catch (error){
+console.error("error",error);
+throw error;
+}}
 async function userListSearch(query)
 {
 const list= await User.find({username:{"$regex":query}});
@@ -168,7 +172,20 @@ app.get('/',(req,res)=>
 {
 res.json({message:"sup backend"});
 });
+app.get('/api/users/:userName',(req,res)=>
+{
+ findUsersId(req.params.userName).then(
+(d)=>res.json(d)
+)
+});
 
+app.get('/api/users/login/:un&:pw'),(req,res)=>{
+const un=pes.sanitize(  req.body.userName);
+console.log(un);
+const pw=pes.sanitize(req.body.pw) ;
+console.log(pw);
+res.json({un,pw})
+}
 //saveUser("test2","pooop2").catch(console.dir);
 console.log(userListSearch("test"));
 

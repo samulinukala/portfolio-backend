@@ -12,10 +12,12 @@
     "bcryptjs": "^3.0.3",
     "body-parser": "^2.2.2",
     "cors": "^2.8.6",
+    "dompurify": "^3.3.3",
     "dotenv": "^17.2.4",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
     "mongodb": "^7.1.0",
-    "mongoose": "^9.2.0"
+    "mongoose": "^9.2.0",
+    "perfect-express-sanitizer": "^2.0.2"
   }
 }
