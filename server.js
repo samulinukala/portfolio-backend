@@ -172,7 +172,7 @@ app.get('/',(req,res)=>
 {
 res.json({message:"sup backend"});
 });
-app.get('/api/users/:userName',(req,res)=>
+app.get('/api/users/findId/:userName',(req,res)=>
 {
  findUsersId(req.params.userName).then(
 (d)=>res.json(d)
