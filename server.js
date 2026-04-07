@@ -1,7 +1,8 @@
 const express=require('express');
 const cors=require('cors');
 require('dotenv').config();
-const pes=require("perfect-express-sanitizer");
+const {jsdom, JSDOM} =require('jsdom');
+const createDOMPurify=require('dompurify');
 const mongoose=require('mongoose');
 const bodyParser=require('body-parser');
 const bcrypt=require('bcryptjs');
@@ -14,7 +15,8 @@ const database=client.Db('galleryData');
 const userCred=database.collection('userCred');
 query={username:"ericExample"};
 const user=await userCred.findOne(query);
-
+const window=new JSDOM('').window;
+const dp=createDOMPurify(window);
 console.log(user);
 }
 //readData().catch(console.dir);
@@ -168,24 +170,31 @@ app.use(bodyParser.json());
 mongoose.connect(process.env.uri2)
 .then(()=>console.log('mongodb connect'))
 .catch(err=>console.log(err));
+
 app.get('/',(req,res)=>
 {
 res.json({message:"sup backend"});
 });
+
 app.get('/api/users/findId/:userName',(req,res)=>
 {
  findUsersId(req.params.userName).then(
 (d)=>res.json(d)
 )
-});
+})
 
-app.get('/api/users/login/:un&:pw'),(req,res)=>{
-const un=pes.sanitize(  req.body.userName);
+app.get('/api/users/login/:un/:pw',(req,res)=>
+{
+
+console.log("try");
+console.log(req.params.un);
+console.log(req.params.pw);
+const un=req.params.un
 console.log(un);
-const pw=pes.sanitize(req.body.pw) ;
+const pw=req.params.pw ;
 console.log(pw);
 res.json({un,pw})
-}
+})
 //saveUser("test2","pooop2").catch(console.dir);
 console.log(userListSearch("test"));
 
