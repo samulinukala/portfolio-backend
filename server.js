@@ -17,8 +17,10 @@ query={username:"ericExample"};
 const user=await userCred.findOne(query);
 const window=new JSDOM('').window;
 const dp=createDOMPurify(window);
+const jwt = require('jsonwebtoken');
 console.log(user);
 }
+
 //readData().catch(console.dir);
 async function hashPassword(password)
 {
@@ -86,10 +88,10 @@ return thing;
 
 
 async function getUser(username)
-{
+{try {
 const user= await User.findOne({"username" : username});
 return user;
-
+}catch{return false}
 }
 async function checkPassword(userName,password)
 {
@@ -192,11 +194,20 @@ console.log(req.params.pw);
 const un=req.params.un
 console.log(un);
 const pw=req.params.pw ;
+
 console.log(pw);
-res.json({un,pw})
+let r=true;
+getUser(un).then((u)=>{if(u===null){ res.status(403);r=false;}})
+if(r!=false){
+checkPassword(un,pw).then(((d)=>{
+if(d==true){
+const id= findUsersId(un)
+const token =jwt.sign({userId:id},jwtsk,{expiresIn:'11h',});
+res.json(token);
+}else{res.status(403).json({"forbidden":"forbidden"})}
+
+}))}
 })
 //saveUser("test2","pooop2").catch(console.dir);
 console.log(userListSearch("test"));
-
-
 app.listen(PORT,()=>{console.log(`server run on ${PORT}`)});
