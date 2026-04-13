@@ -1,6 +1,7 @@
 const express=require('express');
 const cors=require('cors');
 require('dotenv').config();
+const jwt = require('jsonwebtoken');
 const {jsdom, JSDOM} =require('jsdom');
 const createDOMPurify=require('dompurify');
 const mongoose=require('mongoose');
@@ -17,10 +18,15 @@ query={username:"ericExample"};
 const user=await userCred.findOne(query);
 const window=new JSDOM('').window;
 const dp=createDOMPurify(window);
-const jwt = require('jsonwebtoken');
+
 console.log(user);
 }
-
+function generateToken(id)
+{
+const t=jwt.sign(id,process.env.jwtsk);
+return t;
+}
+console.log( generateToken(200));
 //readData().catch(console.dir);
 async function hashPassword(password)
 {
@@ -132,9 +138,10 @@ async function deleteUser(userId)
     User.deleteOne({"_id":userId})
 }
 
-async function saveUser(username,passwordHash)
+async function saveUser(username,password)
 {
 console.log("creating user");
+const passwordHash=bcrypt.hash(password,9);
 let u=new User({username:username,passwordHash:passwordHash})
 await u.save();
 console.log(u);
@@ -184,7 +191,23 @@ app.get('/api/users/findId/:userName',(req,res)=>
 (d)=>res.json(d)
 )
 })
+app.get('/api/users/createUser/:un/:pw',(req,res)=>
+{
+checkUsernameAvailability(req.params.un).then((a)=>{
+if(a===true)
+{
+saveUser(req.params.un,req.params.pw);
+checkUsernameAvailability(req.params.un).then((a2)=>
+{
+a2===true? res.status(200).json({"account creation":"succeeded"}):res.status(500).json({"account creation":"failed"})
+})
 
+}
+else (res.status(500).json({"account creation":"failed"}))
+
+
+})
+})
 app.get('/api/users/login/:un/:pw',(req,res)=>
 {
 
@@ -202,7 +225,7 @@ if(r!=false){
 checkPassword(un,pw).then(((d)=>{
 if(d==true){
 const id= findUsersId(un)
-const token =jwt.sign({userId:id},jwtsk,{expiresIn:'11h',});
+const token =jwt.sign({userId:id},process.env.jwtsk,{expiresIn:'11h',});
 res.json(token);
 }else{res.status(403).json({"forbidden":"forbidden"})}
 
