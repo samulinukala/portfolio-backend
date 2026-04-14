@@ -19,6 +19,7 @@ const user=await userCred.findOne(query);
 const window=new JSDOM('').window;
 const dp=createDOMPurify(window);
 
+
 console.log(user);
 }
 function generateToken(id)
@@ -141,10 +142,12 @@ async function deleteUser(userId)
 async function saveUser(username,password)
 {
 console.log("creating user");
-const passwordHash=bcrypt.hash(password,9);
-let u=new User({username:username,passwordHash:passwordHash})
-await u.save();
-console.log(u);
+bcrypt.hash(password,9).then((pHash)=>{
+let u=new User({username:username,passwordHash:pHash})
+u.save();
+
+})
+
 }
 
 async function checkUsernameAvailability(username)
@@ -170,10 +173,60 @@ async function testSend()
     const coolTestHash=await hashPassword("eric_rules_hard");
     saveUser(testUser,coolTestHash);
 }
-testHash();
-testLogin();
+function messageTemplate(message,un)
+{
+    un!=undefined ? this.un=un:this.un="Anonymous";
+    message!=null?this.message=message:  this.message="";
+    
+}
+
+let chatMessages=[]
+sendChatMessage("welcome to the chat you can log in or not","starter");
+function getChat()
+{
+return (chatMessages);
+}
+
+function consoleRenderChat()
+{
+chatMessages.map((m)=>{
+console.log("-------------------");
+console.log(m.un+": "+m.message);
+console.log("-------------");
+console.log("");
+
+
+})
+}
+
+function sendChatMessage(message,un)
+{
+  
+  const chatMessage=new messageTemplate(message,un)
+  chatMessages.push(chatMessage);
+}
+
+consoleRenderChat();
+sendChatMessage("sssssssss","28");
+sendChatMessage("sssssdddd");
+sendChatMessage("poop");
+console.log(chatMessages)
+consoleRenderChat();
+
+
+
 
 //testSend();
+
+app.put('/api/chat/sendMessage/:m',(req,res)=>{
+sendChatMessage(req.params.m);
+res.json({"succeeded":"message Sent"})
+})
+app.get('/api/chat/',(req,res)=>{
+const c=getChat();
+res.json(c);
+})
+
 
 app.use(bodyParser.json());
 mongoose.connect(process.env.uri2)
