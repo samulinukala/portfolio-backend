@@ -10,6 +10,8 @@ const bcrypt=require('bcryptjs');
 const { mongoClient}=require('mongodb');
 const app=express();
 const PORT=process.env.PORT || 3000;
+const csurf=require("csurf");
+
 async function readData() {
 const client=new mongoClient(process.env.uri2);
 const database=client.Db('galleryData');
@@ -267,7 +269,7 @@ app.get('/api/users/login/:un/:pw',(req,res)=>
 console.log("try");
 console.log(req.params.un);
 console.log(req.params.pw);
-const un=req.params.un
+const un=req.params.un;
 console.log(un);
 const pw=req.params.pw ;
 
@@ -278,7 +280,8 @@ if(r!=false){
 checkPassword(un,pw).then(((d)=>{
 if(d==true){
 const id= findUsersId(un)
-const token =jwt.sign({userId:id},process.env.jwtsk,{expiresIn:'11h',});
+const token =jwt.sign({userId:id,userName:req.params.un},process.env.jwtsk,{expiresIn:'11h',});
+res.cookie(token,{httpOnly:true});
 res.json(token);
 }else{res.status(403).json({"forbidden":"forbidden"})}
 
