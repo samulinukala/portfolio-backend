@@ -225,6 +225,8 @@ res.json({"succeeded":"message Sent"})
 })
 app.get('/api/chat/',(req,res)=>{
 const c=getChat();
+res.set('Access-Control_Allow-Origin','*');
+res.set('Access-Control-Allow-Methods','GET,POST,PUT');
 res.json(c);
 })
 
