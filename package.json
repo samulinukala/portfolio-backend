@@ -12,7 +12,7 @@
     "bcryptjs": "^3.0.3",
     "body-parser": "^2.2.2",
     "cors": "^2.8.6",
-    "csurf": "^1.11.0",
+    "csurf": "^1.2.2",
     "dompurify": "^3.3.3",
     "dotenv": "^17.2.4",
     "express": "^5.2.1",

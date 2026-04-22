@@ -11,7 +11,7 @@ const { mongoClient}=require('mongodb');
 const app=express();
 const PORT=process.env.PORT || 3000;
 const csurf=require("csurf");
-
+const cors=require("cors");
 async function readData() {
 const client=new mongoClient(process.env.uri2);
 const database=client.Db('galleryData');
@@ -229,7 +229,7 @@ const c=getChat();
 res.json(c);
 })
 
-
+app.use(cors());
 app.use(bodyParser.json());
 mongoose.connect(process.env.uri2)
 .then(()=>console.log('mongodb connect'))
