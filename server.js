@@ -220,6 +220,8 @@ consoleRenderChat();
 //testSend();
 
 app.put('/api/chat/sendMessage/:m',(req,res)=>{
+res.set('Access-Control-Allow-Origin','*');
+res.set('Access-Control-Allow-Methods','GET,POST,PUT');
 sendChatMessage(req.params.m);
 res.json({"succeeded":"message Sent"})
 })
