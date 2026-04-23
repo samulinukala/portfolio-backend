@@ -220,8 +220,6 @@ consoleRenderChat();
 //testSend();
 
 app.put('/api/chat/sendMessage/:m',(req,res)=>{
-req.set('Access-Control-Allow-Origin','*');
-req.set('Access-Control-Allow-Methods','GET,POST,PUT');
 sendChatMessage(req.params.m);
 res.json({"succeeded":"message Sent"})
 })
@@ -232,8 +230,7 @@ res.set('Access-Control-Allow-Methods','GET,POST,PUT');
 res.json(c);
 })
 
-app.use(cors());
-app.use(bodyParser.json());
+app.use(bodyParser.json(),cors());
 mongoose.connect(process.env.uri2)
 .then(()=>console.log('mongodb connect'))
 .catch(err=>console.log(err));
