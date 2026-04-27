@@ -207,12 +207,7 @@ function sendChatMessage(message,un)
   chatMessages.push(chatMessage);
 }
 
-consoleRenderChat();
-sendChatMessage("sssssssss","28");
-sendChatMessage("sssssdddd");
-sendChatMessage("poop");
-console.log(chatMessages)
-consoleRenderChat();
+
 
 
 
