@@ -258,9 +258,12 @@ else (res.status(500).json({"account creation":"failed"}))
 
 })
 })
+
 app.get('/api/users/login/:un/:pw',(req,res)=>
 {
+res.set('Access-Control-Allow-Origin',"https://samulinukala.github.io","Access-Control-Allow-Credentials: true");
 
+res.set('Access-Control-Allow-Methods','GET,POST,PUT');
 console.log("try");
 console.log(req.params.un);
 console.log(req.params.pw);
