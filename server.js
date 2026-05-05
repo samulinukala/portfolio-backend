@@ -11,6 +11,13 @@ const { mongoClient}=require('mongodb');
 const app=express();
 const PORT=process.env.PORT || 3000;
 const csurf=require("csurf");
+const cookieParser=require("cookie-parser");
+
+
+
+
+
+
 async function readData() {
 const client=new mongoClient(process.env.uri2);
 const database=client.Db('galleryData');
@@ -226,10 +233,14 @@ res.json(c);
 })
 
 app.use(bodyParser.json(),cors());
+app.use(cookieParser());
 mongoose.connect(process.env.uri2)
 .then(()=>console.log('mongodb connect'))
 .catch(err=>console.log(err));
-
+app.get('/api/users/testCookie',(req,res)=>{
+const ck=req.cookies;
+res.json({"cookies":ck});
+})
 app.get('/',(req,res)=>
 {
 res.json({message:"sup backend"});
@@ -279,7 +290,7 @@ checkPassword(un,pw).then(((d)=>{
 if(d==true){
 const id= findUsersId(un)
 const token =jwt.sign({userId:id,userName:req.params.un},process.env.jwtsk,{expiresIn:'11h',});
-res.cookie(token,{httpOnly:true});
+res.cookie(token,{httpOnly:false});
 res.json(token);
 }else{res.status(403).json({"forbidden":"false login"})}
 
