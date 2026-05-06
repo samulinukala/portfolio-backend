@@ -222,6 +222,7 @@ function sendChatMessage(message,un)
 //testSend();
 
 app.put('/api/chat/sendMessage/:m',(req,res)=>{
+console.log(req.cookies.userToken);
 sendChatMessage(req.params.m);
 res.json({"succeeded":"message Sent"})
 })
