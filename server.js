@@ -223,12 +223,13 @@ function sendChatMessage(message,un)
 
 app.put('/api/chat/sendMessage/:m',(req,res)=>{
 console.log(req.cookies.userToken);
+res.set('Access-Control-Allow-Origin','https://samulinukala.github.io')
 sendChatMessage(req.params.m);
 res.json({"succeeded":"message Sent"})
 })
 app.get('/api/chat/',(req,res)=>{
 const c=getChat();
-res.set('Access-Control-Allow-Origin','*');
+res.set('Access-Control-Allow-Origin','https://samulinukala.github.io');
 res.set('Access-Control-Allow-Methods','GET,POST,PUT');
 res.json(c);
 })
