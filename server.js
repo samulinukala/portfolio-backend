@@ -26,7 +26,7 @@ query={username:"ericExample"};
 const user=await userCred.findOne(query);
 const window=new JSDOM('').window;
 const dp=createDOMPurify(window);
-
+app.use(cookieParser());
 
 console.log(user);
 }
@@ -234,7 +234,7 @@ res.json(c);
 })
 
 app.use(bodyParser.json(),cors());
-app.use(cookieParser());
+
 mongoose.connect(process.env.uri2)
 .then(()=>console.log('mongodb connect'))
 .catch(err=>console.log(err));
@@ -291,6 +291,7 @@ checkPassword(un,pw).then(((d)=>{
 if(d==true){
 const id= findUsersId(un)
 const token =jwt.sign({userId:id,userName:req.params.un},process.env.jwtsk,{expiresIn:'11h',});
+res.json("userToken",token);
 res.cookie("userToken",token,{httpOnly:true});
 }else{res.status(403).json({"forbidden":"false login"})}
 
