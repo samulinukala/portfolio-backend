@@ -234,7 +234,7 @@ res.set('Access-Control-Allow-Methods','GET,POST,PUT');
 res.json(c);
 })
 
-app.use(bodyParser.json(),cors());
+app.use(bodyParser.json());
 
 mongoose.connect(process.env.uri2)
 .then(()=>console.log('mongodb connect'))
@@ -250,6 +250,7 @@ res.json({message:"sup backend"});
 
 app.get('/api/users/findId/:userName',(req,res)=>
 {
+res.set('Access-Control-Allow-Origins','https://samulinukala.github.io');
  findUsersId(req.params.userName).then(
 (d)=>res.json(d)
 )
