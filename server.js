@@ -272,7 +272,7 @@ else (res.status(500).json({"account creation":"failed"}))
 })
 })
 
-app.get('/api/users/login/:un/:pw',(req,res)=>
+app.put('/api/users/login/:un/:pw',(req,res)=>
 {
 res.set('Access-Control-Allow-Origin','https://samulinukala.github.io');
 res.set("Access-Control-Allow-Credentials: true")
@@ -292,7 +292,7 @@ checkPassword(un,pw).then(((d)=>{
 if(d==true){
 const id= findUsersId(un)
 const token =jwt.sign({userId:id,userName:req.params.un},process.env.jwtsk,{expiresIn:'11h',});
-res.cookie("userToken",token,{httpOnly:false});
+res.cookie("userToken",token,{httpOnly:true,secure:true,sameSite:'none'});
 }else{res.status(403).json({"forbidden":"false login"})}
 
 }))}
