@@ -292,7 +292,7 @@ checkPassword(un,pw).then(((d)=>{
 if(d==true){
 const id= findUsersId(un)
 const token =jwt.sign({userId:id,userName:req.params.un},process.env.jwtsk,{expiresIn:'11h',});
-res.cookie("userToken",token,{httpOnly:true});
+res.cookie("userToken",token,{httpOnly:false});
 }else{res.status(403).json({"forbidden":"false login"})}
 
 }))}
