@@ -273,17 +273,16 @@ else (res.status(500).json({"account creation":"failed"}))
 })
 })
 
-app.put('/api/users/login/:un/:pw',(req,res)=>
+app.put('/api/users/login',(req,res)=>
 {
 res.set('Access-Control-Allow-Origin','https://samulinukala.github.io');
 res.set("Access-Control-Allow-Credentials: true");
 res.set('Access-Control-Allow-Methods','GET,POST,PUT');
 console.log("try");
-console.log(req.params.un);
-console.log(req.params.pw);
-const un=req.params.un;
-console.log(un);
-const pw=req.params.pw ;
+console.log(req.body.parameter1);
+console.log(req.body.parameter2);
+const un=req.body.parameter1;
+const pw=req.body.parameter2 ;
 
 console.log(pw);
 let r=true;
