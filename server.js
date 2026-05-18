@@ -16,7 +16,8 @@ const cookieParser=require("cookie-parser");
 
 app.use(cors({
 origin: 'https://samulinukala.github.io',
-
+credentials:true,
+methods:['GET','POST','PUT']
 }));
 
 
