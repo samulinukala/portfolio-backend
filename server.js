@@ -281,8 +281,7 @@ app.put('/api/users/login',(req,res)=>
 {
 
 console.log("try");
-console.log(req.body.parameter1);
-console.log(req.body.parameter2);
+console.log("req body is"+req.body);
 const un=req.body.parameter1;
 const pw=req.body.parameter2 ;
 
