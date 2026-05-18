@@ -13,7 +13,7 @@ const PORT=process.env.PORT || 3000;
 const csurf=require("csurf");
 const cookieParser=require("cookie-parser");
 
-
+app.use(bodyParser.json());
 app.use(cors({
 origin: 'https://samulinukala.github.io',
 credentials:true,
@@ -239,7 +239,7 @@ res.set('Access-Control-Allow-Methods','GET,POST,PUT');
 res.json(c);
 })
 
-app.use(bodyParser.json());
+
 
 mongoose.connect(process.env.uri2)
 .then(()=>console.log('mongodb connect'))
