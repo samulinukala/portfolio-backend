@@ -14,6 +14,10 @@ const csurf=require("csurf");
 const cookieParser=require("cookie-parser");
 
 
+app.use(cors({
+origin: 'https://samulinukala.github.io',
+
+}));
 
 
 
@@ -272,12 +276,9 @@ else (res.status(500).json({"account creation":"failed"}))
 
 })
 })
-
 app.put('/api/users/login',(req,res)=>
 {
-res.set('Access-Control-Allow-Origin','https://samulinukala.github.io');
-res.set("Access-Control-Allow-Credentials: true");
-res.set('Access-Control-Allow-Methods','GET,POST,PUT');
+
 console.log("try");
 console.log(req.body.parameter1);
 console.log(req.body.parameter2);
