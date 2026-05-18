@@ -281,12 +281,12 @@ app.put('/api/users/login',(req,res)=>
 {
 
 console.log("try");
-console.log("req body is"+req.body);
-res.status(580);
-{/*
+
+
+
 const un=req.body.parameter1;
 const pw=req.body.parameter2 ;
-
+console.log(un);
 console.log(pw);
 let r=true;
 getUser(un).then((u)=>{if(u===null){ res.status(403);r=false;}})
@@ -299,7 +299,7 @@ res.cookie("userToken",token,{httpOnly:true,secure:true,sameSite:'none'});
 }else{res.status(403).json({"forbidden":"false login"})}
 
 }))}
-*/}
+
 })
 //saveUser("test2","pooop2").catch(console.dir);
 console.log(userListSearch("test"));
