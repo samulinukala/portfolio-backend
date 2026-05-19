@@ -279,14 +279,12 @@ else (res.status(500).json({"account creation":"failed"}))
 app.put('/api/users/login',(req,res)=>
 {
 
-console.log("try");
+
 
 
 
 const un=req.body.parameter1;
 const pw=req.body.parameter2 ;
-console.log(un);
-console.log(pw);
 let r=true;
 getUser(un).then((u)=>{if(u===null){ res.status(403);r=false;}})
 if(r!=false){
@@ -294,6 +292,7 @@ checkPassword(un,pw).then(((d)=>{
 if(d==true){
 const id= findUsersId(un)
 const token =jwt.sign({userId:id,userName:req.params.un},process.env.jwtsk,{expiresIn:'11h',});
+console.log("token: "+token)
 res.cookie("userToken",token,{httpOnly:true,secure:true,sameSite:'none'});
 }else{res.status(403).json({"forbidden":"false login"})}
 
