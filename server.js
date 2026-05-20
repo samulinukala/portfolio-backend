@@ -276,26 +276,23 @@ else (res.status(500).json({"account creation":"failed"}))
 
 })
 })
-app.put('/api/users/login', async(req,res)=>
+
+
+app.post('/api/users/login', async(req,res)=>
 {
-
-
-
-
-
 const un=req.body.parameter1;
 const pw=req.body.parameter2 ;
 let r=true;
-const c= getUser(un);
+const c= await getUser(un);
 if(c===null){ res.status(403);return;}else{
 
 if(r!=false){
-checkPassword(un,pw).then(((d)=>{
+const d= await checkPassword(un,pw)
 if(d==true){
 const id= findUsersId(un)
-const token =jwt.sign({userId:id,userName: un},process.env.jwtsk,{expiresIn:'11h',});
+const token =jwt.sign({userId:id,userName: un},process.env.jwtsk,{expiresIn:'11hr',});
 console.log("token: "+token)
-res.cookie("userToken",token,{domain: "samulinukala.github.io",httpOnly:true,secure:true,sameSite:'none'});
+res.cookie("userToken",token,{domain: "samulinukala.github.io",httpOnly:true,secure:true,sameSite:'none',maxAge:11*60*60*1000});
 
 }else{res.status(403).json({"forbidden":"false login"})}
 
