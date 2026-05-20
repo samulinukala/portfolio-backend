@@ -293,7 +293,8 @@ if(d==true){
 const id= findUsersId(un)
 const token =jwt.sign({userId:id,userName:req.params.un},process.env.jwtsk,{expiresIn:'11h',});
 console.log("token: "+token)
-res.cookie("userToken",token,{httpOnly:true,secure:true,sameSite:'none'});
+res.cookie("userToken",token,{domain: "https://samulinukala.github.io/",httpOnly:true,secure:true,sameSite:'none'});
+
 }else{res.status(403).json({"forbidden":"false login"})}
 
 }))}
