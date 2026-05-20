@@ -15,7 +15,7 @@ const cookieParser=require("cookie-parser");
 
 app.use(bodyParser.json());
 app.use(cors({
-origin: 'https://samulinukala.github.io',
+origin: 'samulinukala.github.io',
 credentials:true,
 methods:['GET','POST','PUT']
 }));
@@ -276,7 +276,7 @@ else (res.status(500).json({"account creation":"failed"}))
 
 })
 })
-app.put('/api/users/login',(req,res)=>
+app.put('/api/users/login', async(req,res)=>
 {
 
 
@@ -286,20 +286,22 @@ app.put('/api/users/login',(req,res)=>
 const un=req.body.parameter1;
 const pw=req.body.parameter2 ;
 let r=true;
-getUser(un).then((u)=>{if(u===null){ res.status(403);r=false;}})
+const c= getUser(un);
+if(c===null){ res.status(403);return;}else{
+
 if(r!=false){
 checkPassword(un,pw).then(((d)=>{
 if(d==true){
 const id= findUsersId(un)
-const token =jwt.sign({userId:id,userName:req.params.un},process.env.jwtsk,{expiresIn:'11h',});
+const token =jwt.sign({userId:id,userName: un},process.env.jwtsk,{expiresIn:'11h',});
 console.log("token: "+token)
-res.cookie("userToken",token,{domain: "https://samulinukala.github.io/",httpOnly:true,secure:true,sameSite:'none'});
+res.cookie("userToken",token,{domain: "samulinukala.github.io",httpOnly:true,secure:true,sameSite:'none'});
 
 }else{res.status(403).json({"forbidden":"false login"})}
 
 }))}
-
-})
+}
+});
 //saveUser("test2","pooop2").catch(console.dir);
 console.log(userListSearch("test"));
 app.listen(PORT,()=>{console.log(`server run on ${PORT}`)});
