@@ -296,9 +296,9 @@ res.cookie("userToken",token,{domain: "samulinukala.github.io",httpOnly:true,sec
 
 }else{res.status(403).json({"forbidden":"false login"})}
 
-}))}
 }
-});
+}}
+);
 //saveUser("test2","pooop2").catch(console.dir);
 console.log(userListSearch("test"));
 app.listen(PORT,()=>{console.log(`server run on ${PORT}`)});
