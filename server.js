@@ -227,7 +227,6 @@ function sendChatMessage(message,un)
 //testSend();
 
 app.put('/api/chat/sendMessage/:m',(req,res)=>{
-res.set('Access-Control-Allow-Origin','https://samulinukala.github.io')
 sendChatMessage(req.params.m);
 res.json({"succeeded":"message Sent"})
 })
