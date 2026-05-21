@@ -15,7 +15,7 @@ const cookieParser=require("cookie-parser");
 
 app.use(bodyParser.json());
 app.use(cors({
-origin: 'samulinukala.github.io',
+origin: 'https://samulinukala.github.io/',
 credentials:true,
 methods:['GET','POST','PUT']
 }));
@@ -133,18 +133,6 @@ return  true;
 }
 }
 }
-async function testLogin()
-{
-const res=await checkUsernameAvailability("eric_example");
-const res2=await checkUsernameAvailability("bad-name-example");
-const res3=await checkPassword("eric_example","eric_rules_hard");
-const res4=await checkPassword("bad-name-example","badhash");
-console.log("result of namecheck "+res);
-console.log("result of namecheck "+res2);
-console.log("checking password with : eric example and hash res: "+res3);
- console.log("checking password with : junk. res: "+res4);
- 
-}
 
 async function deleteUser(userId) 
 {
@@ -232,8 +220,6 @@ res.json({"succeeded":"message Sent"})
 })
 app.get('/api/chat/',(req,res)=>{
 const c=getChat();
-res.set('Access-Control-Allow-Origin','https://samulinukala.github.io');
-res.set('Access-Control-Allow-Methods','GET,POST,PUT');
 res.json(c);
 })
 
@@ -253,7 +239,7 @@ res.json({message:"sup backend"});
 
 app.get('/api/users/findId/:userName',(req,res)=>
 {
-res.set('Access-Control-Allow-Origins','https://samulinukala.github.io');
+
  findUsersId(req.params.userName).then(
 (d)=>res.json(d)
 )
