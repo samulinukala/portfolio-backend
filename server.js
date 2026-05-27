@@ -263,8 +263,8 @@ else (res.status(500).json({"account creation":"failed"}))
 })
 app.get('/api/test/readCookie',(req,res)=>
 {
-const d=req.cookies.token;
-res.status(200).json({"cookiesfound":d});
+console.log(req.cookies.token);
+res.status(200);
 })
 
 app.post('/api/users/login', async(req,res)=>
