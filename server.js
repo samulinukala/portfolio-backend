@@ -12,7 +12,7 @@ const app=express();
 const PORT=process.env.PORT || 3000;
 const csurf=require("csurf");
 const cookieParser=require("cookie-parser");
-
+app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(cors({
 origin: 'https://samulinukala.github.io',
@@ -31,7 +31,7 @@ query={username:"ericExample"};
 const user=await userCred.findOne(query);
 const window=new JSDOM('').window;
 const dp=createDOMPurify(window);
-app.use(cookieParser());
+
 
 console.log(user);
 }
