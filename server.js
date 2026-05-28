@@ -206,16 +206,11 @@ function sendChatMessage(message,un)
   const chatMessage=new messageTemplate(message,un)
   chatMessages.push(chatMessage);
 }
-
-
-
-
-
-
 //testSend();
 
 app.put('/api/chat/sendMessage/:m',(req,res)=>{
-sendChatMessage(req.params.m);
+const d=jwt.verify(req.cookies.userToken,process.env.jwtsk);
+sendChatMessage(req.params.m,d.userName);
 res.json({"succeeded":"message Sent"})
 })
 app.get('/api/chat/',(req,res)=>{
@@ -263,9 +258,7 @@ else (res.status(500).json({"account creation":"failed"}))
 })
 app.get('/api/test/readCookie',(req,res)=>
 {
-console.log(req.cookies.userToken);
 const d=jwt.verify(req.cookies.userToken,process.env.jwtsk);
-console.log(d.userName);
 d!=undefined&& res.status(200).json({"token valid":d});
 
 res.status(403);
