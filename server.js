@@ -265,7 +265,7 @@ app.get('/api/test/readCookie',(req,res)=>
 {
 console.log(req.cookies.userToken);
 const d=jwt.verify(req.cookies.userToken,process.env.jwtsk);
-console.log(d);
+console.log(d.userName);
 d==true&& res.status(200).json({"token":"valid"});
 
 res.status(403);
