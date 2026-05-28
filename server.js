@@ -239,7 +239,7 @@ app.get('/api/users/findId/:userName',(req,res)=>
 (d)=>res.json(d)
 )
 })
-app.get('/api/users/createUser/:un/:pw',(req,res)=>
+app.put('/api/users/createUser/:un/:pw',(req,res)=>
 {
 checkUsernameAvailability(req.params.un).then((a)=>{
 if(a===true)
