@@ -282,11 +282,12 @@ if(c===null){ res.status(403);return;}else{
 if(r!=false){
 const d= await checkPassword(un,pw)
 if(d==true){
-const id= findUsersId(un)
+findUsersId(un).then((id)=>{
 const token =jwt.sign({userId:id,userName: un},process.env.jwtsk,{expiresIn:'11hr',});
 console.log("token: "+token)
 res.cookie("userToken",token,{httpOnly:true,secure:true,sameSite:'none',partitioned:true});
 res.json({"worked":"succeeded"});
+})
 }else{res.status(403).json({"forbidden":"false login"})}
 
 }
