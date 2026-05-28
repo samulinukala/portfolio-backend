@@ -264,7 +264,10 @@ else (res.status(500).json({"account creation":"failed"}))
 app.get('/api/test/readCookie',(req,res)=>
 {
 console.log(req.cookies.userToken);
-res.status(200);
+jwt.verify(req.cookies.userToken,jwtsk).then((d)=>{
+d==true&& res.status(200).json({"token":"valid"});
+});
+res.status(403);
 })
 
 app.post('/api/users/login', async(req,res)=>
