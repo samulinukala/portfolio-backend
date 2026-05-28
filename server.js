@@ -285,7 +285,7 @@ if(d==true){
 findUsersId(un).then((id)=>{
 const token =jwt.sign({userId:id,userName: un},process.env.jwtsk,{expiresIn:'11hr',});
 console.log("token: "+token)
-res.cookie("userToken",token,{httpOnly:true,secure:true,sameSite:'none',partitioned:true});
+res.cookie("userToken",token,{httpOnly:true,secure:true,sameSite:'none',maxAge:1000*60*60*11,partitioned:true});
 res.json({"worked":"succeeded"});
 })
 }else{res.status(403).json({"forbidden":"false login"})}
