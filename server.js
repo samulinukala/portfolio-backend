@@ -248,7 +248,7 @@ if(a===true)
 saveUser(req.params.un,req.params.pw);
 checkUsernameAvailability(req.params.un).then((a2)=>
 {
-a2===true? res.status(200).json({"account creation":"succeeded"}):res.status(500).json({"account creation":"failed"})
+a2===true? res.status(200).json({"account creation":"succeeded"}):res.status(500).json({"account creation":"failed user exists"})
 })
 
 }
