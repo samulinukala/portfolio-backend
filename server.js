@@ -200,7 +200,7 @@ console.log("");
 })
 }
 
-function sendChatMessage(message,un)
+function sendChatMessage(message,un="Anonymous")
 {
   
   const chatMessage=new messageTemplate(message,un)
@@ -210,7 +210,7 @@ function sendChatMessage(message,un)
 
 app.put('/api/chat/sendMessage/:m',(req,res)=>{
 const d=jwt.verify(req.cookies.userToken,process.env.jwtsk);
-sendChatMessage(req.params.m,d.userName);
+d!=undefined ? sendChatMessage(req.params.m,d.userName) : sendChatMessage(req.params.m);
 res.json({"succeeded":"message Sent"})
 })
 app.get('/api/chat/',(req,res)=>{
