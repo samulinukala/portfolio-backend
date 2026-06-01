@@ -209,7 +209,8 @@ function sendChatMessage(message,un="Anonymous")
 //testSend();
 
 app.put('/api/chat/sendMessage/:m',(req,res)=>{
-const d=jwt.verify(req.cookies.userToken,process.env.jwtsk);
+var d=null;
+req.cookies.userToken!=null ? d=jwt.verify(req.cookies.userToken,process.env.jwtsk) : console.log("no token");
 d!=undefined ? sendChatMessage(req.params.m,d.userName) : sendChatMessage(req.params.m);
 res.json({"succeeded":"message Sent"})
 })
