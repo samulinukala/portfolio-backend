@@ -240,7 +240,7 @@ app.get('/api/users/findId/:userName',(req,res)=>
 (d)=>res.json(d)
 )
 })
-app.put('/api/users/createUser',(req,res)=>
+app.post('/api/users/createUser',(req,res)=>
 {
 const un=req.body.parameter1;
 const pw=req.body.parameter2;
