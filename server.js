@@ -240,13 +240,15 @@ app.get('/api/users/findId/:userName',(req,res)=>
 (d)=>res.json(d)
 )
 })
-app.put('/api/users/createUser/:un/:pw',(req,res)=>
+app.put('/api/users/createUser',(req,res)=>
 {
-checkUsernameAvailability(req.params.un).then((a)=>{
+const un=req.body.parameter1;
+const pw=req.body.parameter2;
+checkUsernameAvailability(un).then((a)=>{
 if(a===true)
 {
-saveUser(req.params.un,req.params.pw);
-checkUsernameAvailability(req.params.un).then((a2)=>
+saveUser(un,pw);
+checkUsernameAvailability(un).then((a2)=>
 {
 a2===true? res.status(200).json({"account creation":"succeeded"}):res.status(500).json({"account creation":"failed user exists"})
 })
