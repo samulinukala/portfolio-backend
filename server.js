@@ -269,8 +269,8 @@ res.status(403);
 
 app.post('/api/users/login', async(req,res)=>
 {
-const un=req.body.parameter1;
-const pw=req.body.parameter2 ;
+const un=req.body.username;
+const pw=req.body.password ;
 let r=true;
 const c= await getUser(un);
 if(c===null){ res.status(403);return;}else{
