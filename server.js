@@ -73,10 +73,6 @@ console.log("test hash: "+hashTest);
 
 }
 
-const ForumTopicSchema=new mongoose.Schema({
-name:{type:String,required:true}
-})
-const sections=mongoose.model("forumTopic",forumTopicSchema);
 
 const ForumPostSchema=new mongoose.Schema({
     user:{type:String,required:true},
@@ -205,38 +201,36 @@ function removeForumPost(id){
 ForumPost.deleteOne({id:id});
 
 }
-function removeSection(nameOfSection){
 
-}
-function addSection(nameOfSection){
-
-}
 
 {/* forum functions */}
 
-function Post(header,text,user,topic){
-this.header=header;
-this.text=text;
-this.user=user;
-this.topic=topic;
-}
-function PostOnForum(){
-    //save post to db
 
-    //return status to frontend
+function PostOnForum(user,header,text,section){
+    const d=new ForumPost(user,header,text,section);
+    if(d!=null){
+    d.save();
+    return true;
+    }
+    return false;
 }
-function retrivePostById(){
+function retrivePostById(id)
+{
+    return db.find(ForumPost,{id:id});
+}
 //read database
+function retrivePostsByTopic(topic){
 
+    //read database
+    return db.find(ForumPost,{section:topic});
+}
 // return to frontend
+
+async function listTopics(){
+    const topics = await ForumPost.distinct("section");
+    console.log("All Topics:", topics);
+    return topics;
 }
-function listPosts(topic){
-
-    // read posts by topic
-
-}
-
-
 
 function consoleRenderChat()
 {
@@ -267,6 +261,29 @@ res.json({"succeeded":"message Sent"})
 app.get('/api/chat/',(req,res)=>{
 const c=getChat();
 res.json(c);
+})
+app.getUser('/api/forum/getPostById/:id',(req,res)=>{
+const c=retrivePostById(req.params.id);
+return res.json(c);
+})
+app.get('/api/forum/listTopics/',(req,res)=>{
+    const d=listTopics();
+return res.json(d);
+})
+app.get('/api/forum/retrivePostByTopic/:topic',(req,res)=>{
+    const c=retrivePostsByTopic(req.params.topic);
+return res.json(c);
+})
+app.post('/api/forum/postMessage',async(req,res)=>
+{
+const c=postMessage(req.body.user,req.body.header,req.body.text,req.body.section);
+c==true ? res.json({"succeeded":"post created"}) : res.json({"failed":"error creating post"});
+})
+app.get('/api/users/getAllUsers',(req,res)=>
+{
+getUsers().then(
+(d)=>res.json(d)
+)
 })
 
 
