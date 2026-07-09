@@ -262,7 +262,7 @@ app.get('/api/chat/',(req,res)=>{
 const c=getChat();
 res.json(c);
 })
-app.getUser('/api/forum/getPostById/:id',(req,res)=>{
+app.get('/api/forum/getPostById/:id',(req,res)=>{
 const c=retrivePostById(req.params.id);
 return res.json(c);
 })
