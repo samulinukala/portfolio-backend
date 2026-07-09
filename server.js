@@ -72,6 +72,19 @@ console.log("no match")
 console.log("test hash: "+hashTest);
 
 }
+
+const ForumTopicSchema=new mongoose.Schema({
+name:{type:String,required:true}
+})
+const sections=mongoose.model("forumTopic",forumTopicSchema);
+
+const ForumPostSchema=new mongoose.Schema({
+    user:{type:String,required:true},
+    title:{type:String,required:true},
+    text:{type:String,required:true},
+    section:{type:String,required:false},
+})
+const ForumPost=mongoose.model("ForumPost",ForumPostSchema);
 const userSchema=new mongoose.Schema(
 {
 username:{
@@ -187,6 +200,43 @@ function getChat()
 {
 return (chatMessages);
 }
+
+function removeForumPost(id){
+ForumPost.deleteOne({id:id});
+
+}
+function removeSection(nameOfSection){
+
+}
+function addSection(nameOfSection){
+
+}
+
+{/* forum functions */}
+
+function Post(header,text,user,topic){
+this.header=header;
+this.text=text;
+this.user=user;
+this.topic=topic;
+}
+function PostOnForum(){
+    //save post to db
+
+    //return status to frontend
+}
+function retrivePostById(){
+//read database
+
+// return to frontend
+}
+function listPosts(topic){
+
+    // read posts by topic
+
+}
+
+
 
 function consoleRenderChat()
 {
