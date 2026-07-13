@@ -264,16 +264,16 @@ app.get('/api/chat/',(req,res)=>{
 const c=getChat();
 res.json(c);
 })
-app.get('/api/forum/getPostById/:id',(req,res)=>{
-const c=retrivePostById(req.params.id);
+app.get('/api/forum/getPostById/:id',async(req,res)=>{
+const c=await retrivePostById(req.params.id);
 return res.json(c);
 })
-app.get('/api/forum/listTopics/',(req,res)=>{
+app.get('/api/forum/listTopics/',async(req,res)=>{
     const d=await listTopics();
 return res.json(d);
 })
-app.get('/api/forum/retrivePostByTopic/:topic',(req,res)=>{
-    const c=retrivePostsByTopic(req.params.topic);
+app.get('/api/forum/retrivePostByTopic/:topic',async(req,res)=>{
+    const c=await retrivePostsByTopic(req.params.topic);
 return res.json(c);
 })
 app.post('/api/forum/postMessage',async(req,res)=>
