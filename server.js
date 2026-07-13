@@ -228,12 +228,13 @@ function retrivePostsByTopic(topic){
 }
 // return to frontend
 
-async function listTopics(){
-    const topics = await ForumPost.distinct("section");
-    console.log("All Topics:", topics);
-    return topics;
+ function listTopics(){
+    ForumPost.distinct("section").then((topic)=>{
+  
+    console.log("All Topics:", topic);
+    return topic;
 }
-
+ )}
 function consoleRenderChat()
 {
 chatMessages.map((m)=>{
