@@ -271,7 +271,7 @@ return res.json(c);
 })
 app.get('/api/forum/listTopics/',async(req,res)=>{
     const d=await listTopics();
-return res.json(d);
+return res.statusCode(202).json(d);
 })
 app.get('/api/forum/retrivePostByTopic/:topic',async(req,res)=>{
     const c=await retrivePostsByTopic(req.params.topic);
