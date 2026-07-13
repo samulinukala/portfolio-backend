@@ -269,7 +269,7 @@ const c=retrivePostById(req.params.id);
 return res.json(c);
 })
 app.get('/api/forum/listTopics/',(req,res)=>{
-    const d=listTopics();
+    const d=await listTopics();
 return res.json(d);
 })
 app.get('/api/forum/retrivePostByTopic/:topic',(req,res)=>{
