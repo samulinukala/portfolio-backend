@@ -74,13 +74,13 @@ console.log("test hash: "+hashTest);
 }
 
 
-const ForumPostSchema=new mongoose.Schema({
+const forumPostSchema=new mongoose.Schema({
     user:{type:String,required:true},
     title:{type:String,required:true},
     text:{type:String,required:true},
     section:{type:String,required:false},
 })
-const ForumPost=mongoose.model("ForumPost",ForumPostSchema);
+const ForumPost=mongoose.model("ForumPost",forumPostSchema);
 const userSchema=new mongoose.Schema(
 {
 username:{
@@ -93,7 +93,6 @@ type:String,
 required:true
 }
 })
-
 const User=mongoose.model("User",userSchema);
 async function findUsersId(usernameToQry)
 {
@@ -206,14 +205,17 @@ ForumPost.deleteOne({id:id});
 {/* forum functions */}
 
 
-function PostOnForum(user,header,text,section){
-    const d=new ForumPost(user,header,text,section);
-    if(d!=null){
-    d.save();
-    return true;
+async function PostOnForum(user,header,text,section){
+    try {
+        let d = new ForumPost({user:user,title:header,text:text,section:section});
+        await d.save();
+        return true;
+    } catch (error) {
+        console.error("Error saving forum post:", error);
+        return false;
     }
-    return false;
 }
+
 function retrivePostById(id)
 {
     return db.find(ForumPost,{id:id});
@@ -276,7 +278,8 @@ return res.json(c);
 })
 app.post('/api/forum/postMessage',async(req,res)=>
 {
-const c=postMessage(req.body.user,req.body.header,req.body.text,req.body.section);
+
+const c=await PostOnForum(jwt.verify(req.cookies.userToken,process.env.jwtsk),req.body.header,req.body.text,req.body.section);
 c==true ? res.json({"succeeded":"post created"}) : res.json({"failed":"error creating post"});
 })
 app.get('/api/users/getAllUsers',(req,res)=>
@@ -291,8 +294,11 @@ getUsers().then(
 mongoose.connect(process.env.uri2)
 .then(()=>console.log('mongodb connect'))
 .catch(err=>console.log(err));
+PostOnForum("eric_example","testing post","long text","testresults");
+listTopics();
 app.get('/api/users/testCookie',(req,res)=>{
 const ck=req.cookies;
+
 res.json({"cookies":ck});
 })
 app.get('/',(req,res)=>
