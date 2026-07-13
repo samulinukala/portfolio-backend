@@ -229,12 +229,9 @@ function retrivePostsByTopic(topic){
 // return to frontend
 
  function listTopics(){
-    ForumPost.distinct("section").then((topic)=>{
-  
-    console.log("All Topics:", topic);
-    return topic;
+    return (ForumPost.distinct("section"));
 }
- )}
+ 
 function consoleRenderChat()
 {
 chatMessages.map((m)=>{
