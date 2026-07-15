@@ -224,7 +224,7 @@ function retrivePostById(id)
 function retrivePostsByTopic(topic){
 
     //read database
-    return db.find(ForumPost,{section:topic});
+    return (ForumPost.find({ section: topic }));
 }
 // return to frontend
 
