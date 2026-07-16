@@ -292,8 +292,7 @@ getUsers().then(
 mongoose.connect(process.env.uri2)
 .then(()=>console.log('mongodb connect'))
 .catch(err=>console.log(err));
-PostOnForum("eric_example","testing post","long text","testresults");
-listTopics();
+
 app.get('/api/users/testCookie',(req,res)=>{
 const ck=req.cookies;
 
