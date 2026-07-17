@@ -274,12 +274,25 @@ app.get('/api/forum/retrivePostByTopic/:topic',async(req,res)=>{
     const c=await retrivePostsByTopic(req.params.topic);
 return res.json(c);
 })
-app.post('/api/forum/postMessage',async(req,res)=>
-{
+app.post('/api/forum/postMessage', async (req, res) => {
+  try {
+    const token = req.cookies?.userToken;
+    if (!token) return res.status(401).json({ error: "Unauthorized: missing token" });
 
-const c=await PostOnForum(jwt.verify(req.cookies.userToken,process.env.jwtsk).userName.user,req.body.header,req.body.text,req.body.topic);
-c==true ? res.json({"succeeded":"post created"}) : res.json({"failed":"error creating post"});
-})
+    const decoded = jwt.verify(token, process.env.jwtsk);
+    const username = decoded?.userName; // token payload uses { userId, userName: un }
+
+    if (!username) return res.status(401).json({ error: "Unauthorized: invalid token payload" });
+
+    const c = await PostOnForum(username, req.body.header, req.body.text, req.body.topic);
+    return c === true
+      ? res.json({ succeeded: "post created" })
+      : res.status(500).json({ failed: "error creating post" });
+  } catch (e) {
+    console.error("Error in /api/forum/postMessage:", e);
+    return res.status(401).json({ error: "Unauthorized: invalid token" });
+  }
+});
 app.get('/api/users/getAllUsers',(req,res)=>
 {
 getUsers().then(
