@@ -277,7 +277,7 @@ return res.json(c);
 app.post('/api/forum/postMessage',async(req,res)=>
 {
 
-const c=await PostOnForum(jwt.verify(req.cookies.userToken,process.env.jwtsk),req.body.header,req.body.text,req.body.section);
+const c=await PostOnForum(jwt.verify(req.cookies.userToken,process.env.jwtsk),req.body.header,req.body.text,req.body.topic);
 c==true ? res.json({"succeeded":"post created"}) : res.json({"failed":"error creating post"});
 })
 app.get('/api/users/getAllUsers',(req,res)=>
