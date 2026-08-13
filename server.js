@@ -396,7 +396,12 @@ app.post('/api/forum/postMessage', async (req, res) => {
 });
 app.get('/api/users/getLoggedInUser', (req, res) => {
   const token = req.cookies?.userToken;
-  if (!token) return res.status(401).json({ error: "Unauthorized: missing token" })});
+  const decoded=jwt.verify(token, process.env.jwtsk);
+  const username=decoded?.userName;
+  if (!username) return res.status(401).json({ error: "Unauthorized: invalid token payload" });
+  return res.json({ username });
+});
+
 app.get('/api/users/getAllUsers',(req,res)=>
 {
 getUsers().then(
