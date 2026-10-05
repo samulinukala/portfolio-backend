@@ -308,7 +308,7 @@ app.post('/api/forum/postMessage', async (req, res) => {
 
     const c = await PostOnForum(username, req.body.header, req.body.text, req.body.topic);
     return c === true
-      ? res.json({ succeeded: "post created" })
+      ? res.status(200).json({ succeeded: "post created" })
       : res.status(500).json({ failed: "error creating post" });
   } catch (e) {
     console.error("Error in /api/forum/postMessage:", e);
