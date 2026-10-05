@@ -32,87 +32,8 @@ const validate = (validations) => {
   };
 };
 
-// Route validation schemas
-const validateSendMessage = validate([
-  param('m')
-    .trim()
-    .notEmpty()
-    .withMessage('Message parameter is required')
-    .isLength({ max: 1000 })
-    .withMessage('Message length cannot exceed 1000 characters')
-]);
 
-const validateGetPostById = validate([
-  param('id')
-    .trim()
-    .notEmpty()
-    .withMessage('Post ID is required')
-    .isMongoId()
-    .withMessage('Invalid MongoDB ObjectId format')
-]);
 
-const validateRetrivePostByTopic = validate([
-  param('topic')
-    .trim()
-    .notEmpty()
-    .withMessage('Topic parameter is required')
-    .isLength({ max: 100 })
-    .withMessage('Topic length cannot exceed 100 characters')
-]);
-
-const validatePostMessage = validate([
-  body('header')
-    .trim()
-    .notEmpty()
-    .withMessage('Header is required')
-    .isLength({ max: 200 })
-    .withMessage('Header must not exceed 200 characters'),
-  body('text')
-    .trim()
-    .notEmpty()
-    .withMessage('Text content is required'),
-  body('topic')
-    .trim()
-    .notEmpty()
-    .withMessage('Topic is required')
-    .isLength({ max: 100 })
-    .withMessage('Topic must not exceed 100 characters')
-]);
-
-const validateFindId = validate([
-  param('userName')
-    .trim()
-    .notEmpty()
-    .withMessage('Username is required')
-    .isLength({ max: 50 })
-    .withMessage('Username must not exceed 50 characters')
-]);
-
-const validateCreateUser = validate([
-  body('parameter1')
-    .trim()
-    .notEmpty()
-    .withMessage('Username (parameter1) is required')
-    .isLength({ min: 3, max: 30 })
-    .withMessage('Username must be between 3 and 30 characters')
-    .matches(/^[a-zA-Z0-9_]+$/)
-    .withMessage('Username can only contain letters, numbers, and underscores'),
-  body('parameter2')
-    .notEmpty()
-    .withMessage('Password (parameter2) is required')
-    .isLength({ min: 6 })
-    .withMessage('Password must be at least 6 characters long')
-]);
-
-const validateLogin = validate([
-  body('username')
-    .trim()
-    .notEmpty()
-    .withMessage('Username is required'),
-  body('password')
-    .notEmpty()
-    .withMessage('Password is required')
-]);
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(cors({
