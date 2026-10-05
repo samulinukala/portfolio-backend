@@ -8,7 +8,7 @@ const mongoose=require('mongoose');
 const bodyParser=require('body-parser');
 const bcrypt=require('bcryptjs');
 const { mongoClient}=require('mongodb');
-const { body, param, validationResult } = require('express-validator');
+const { check, validationResult } = require('express-validator');
 
 const app=express();
 const PORT=process.env.PORT || 3000;
@@ -392,8 +392,9 @@ app.post('/api/forum/postMessage', async (req, res) => {
   } catch (e) {
     console.error("Error in /api/forum/postMessage:", e);
     return res.status(401).json({ error: "Unauthorized: invalid token" });
-  }
-});
+  } finally {return res.status(500).json({ error: "Internal Server Error" })}});
+  
+
 app.get('/api/users/getLoggedInUser', (req, res) => {
   const token = req.cookies?.userToken;
   const decoded=jwt.verify(token, process.env.jwtsk);
@@ -402,12 +403,7 @@ app.get('/api/users/getLoggedInUser', (req, res) => {
   return res.json({ username });
 });
 
-app.get('/api/users/getAllUsers',(req,res)=>
-{
-getUsers().then(
-(d)=>res.json(d)
-)
-})
+
 
 
 
@@ -415,11 +411,7 @@ mongoose.connect(process.env.uri2)
 .then(()=>console.log('mongodb connect'))
 .catch(err=>console.log(err));
 
-app.get('/api/users/testCookie',(req,res)=>{
-const ck=req.cookies;
 
-res.json({"cookies":ck});
-})
 app.get('/',(req,res)=>
 {
 res.json({message:"sup backend"});
