@@ -313,7 +313,7 @@ app.post('/api/forum/postMessage', async (req, res) => {
   } catch (e) {
     console.error("Error in /api/forum/postMessage:", e);
     return res.status(401).json({ error: "Unauthorized: invalid token" });
-  } finally {return res.status(500).json({ error: "Internal Server Error" })}});
+  } });
   
 
 app.get('/api/users/getLoggedInUser', (req, res) => {
